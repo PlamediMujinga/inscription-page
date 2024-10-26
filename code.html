@@ -50,6 +50,7 @@
 <body>
     <h1>Formation Java</h1>
     <h2>Formulaire d'Inscription</h2>
+    <div id="message" style="color: green; margin-top: 20px;"></div>
     <form id="registrationForm">
         <label for="firstName">Prénom :</label>
         <input type="text" id="firstName" name="firstName" required>
@@ -91,27 +92,30 @@
 
         // Gérer la soumission du formulaire
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const firstName = document.getElementById('firstName').value;
-            const lastName = document.getElementById('lastName').value;
-            const phone = document.getElementById('phone').value;
-            const email = document.getElementById('email').value;
+    event.preventDefault();
+    const firstName = document.getElementById('firstName').value;
+    const lastName = document.getElementById('lastName').value;
+    const phone = document.getElementById('phone').value;
+    const email = document.getElementById('email').value;
 
-            // Ajouter les données à Firestore
-            db.collection('inscriptions').add({
-                firstName: firstName,
-                lastName: lastName,
-                phone: phone,
-                email: email
-            })
-            .then(() => {
-                alert('Inscription réussie !');
-                document.getElementById('registrationForm').reset();
-            })
-            .catch((error) => {
-                console.error('Erreur lors de l\'inscription : ', error);
-            });
-        });
+    // Ajouter les données à Firestore
+    db.collection('inscriptions').add({
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone,
+        email: email
+    })
+    .then(() => {
+        // Afficher le message de succès
+        document.getElementById('message').innerText = 'Enregistrement réussi !';
+        document.getElementById('registrationForm').reset(); // Réinitialiser le formulaire
+    })
+    .catch((error) => {
+        console.error('Erreur lors de l\'enregistrement : ', error);
+        document.getElementById('message').innerText = 'Erreur lors de l\'enregistrement. Veuillez réessayer.';
+        document.getElementById('message').style.color = 'red'; // Changer la couleur du message d'erreur
+    });
+});
     </script>
 </body>
 </html>
